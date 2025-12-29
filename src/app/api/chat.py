@@ -18,9 +18,9 @@ def chat_endpoint(req: ChatRequest, db=Depends(get_db)):
 
     llm_client = OllamaClient()
 
-    intent = IntentClassifier(llm_client).classify(req.message)
+    intent = IntentClassifier(llm_client).classify(req.user_message)
     logger.info(
-        "[CHAT] user_id=%s intent=%s message=%s", req.user_id, intent, req.message
+        "[CHAT] user_id=%s intent=%s message=%s", req.user_id, intent, req.user_message
     )
 
     if intent == "KNOWLEDGE":
@@ -35,11 +35,10 @@ def chat_endpoint(req: ChatRequest, db=Depends(get_db)):
     else:
         logger.warning("[CHAT] Unknown intent=%s", intent)
 
-    response = route_message(
+    reply_text = route_message(
         db=db,
         user_id=req.user_id,
-        user_message=req.message,
+        user_message=req.user_message,
         intent=intent,
     )
-
-    return response
+    return ChatResponse(reply=reply_text)

@@ -8,6 +8,9 @@ from app.db.models import *
 from app.chat.handlers.recommendation import handle_recommendation
 from app.chat.handlers.knowledge import handle_knowledge
 from app.chat.handlers.clarification import handle_clarification
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def route_message(
@@ -20,7 +23,7 @@ def route_message(
     """
     Routes message to correct handler based on intent.
     """
-
+    logger.info(f"[ROUTE] intent={intent} user_id={user_id} lang={language_code}")
     # -----------------------------
     # RECOMMENDATION
     # -----------------------------
@@ -84,12 +87,7 @@ def route_message(
     # -----------------------------
     # UNCLEAR (fallback)
     # -----------------------------
-    clarification = handle_clarification(
-        user_message=user_message,
-        language_code=language_code,
-    )
-
-    return clarification["message"]
+    return handle_clarification(language_code=language_code)
 
 
 def handle_knowledge(

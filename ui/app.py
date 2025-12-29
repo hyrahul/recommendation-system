@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 from requests.exceptions import RequestException, JSONDecodeError
 
-API_URL = "http://localhost:8000/chat"
+API_URL = "http://localhost:8000/api/chat"
 REQUEST_TIMEOUT = 120  # Ollama can be slow on first run
 
 st.set_page_config(
@@ -33,9 +33,7 @@ prompt = st.chat_input("Ask me anything...")
 
 if prompt:
     # --- Show user message immediately ---
-    st.session_state.messages.append(
-        {"role": "user", "content": prompt}
-    )
+    st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.chat_message("user"):
         st.markdown(prompt)
@@ -46,7 +44,11 @@ if prompt:
             try:
                 response = requests.post(
                     API_URL,
-                    json={"message": prompt},
+                    json={
+                        "user_message": prompt,
+                        "user_id": 3,  # TODO: replace with real logged-in user
+                        "language_code": "en",  # or "ko"
+                    },
                     timeout=REQUEST_TIMEOUT,
                 )
 
@@ -71,6 +73,4 @@ if prompt:
         st.markdown(reply)
 
     # --- Save assistant message ---
-    st.session_state.messages.append(
-        {"role": "assistant", "content": reply}
-    )
+    st.session_state.messages.append({"role": "assistant", "content": reply})

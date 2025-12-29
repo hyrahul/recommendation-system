@@ -1,3 +1,4 @@
+from typing import cast
 from app.services.recommendation_service import recommend
 from app.services.video_recommendation_service import VideoRecommendationService
 
@@ -12,9 +13,10 @@ def handle_recommendation(
     enriched_lectures = []
 
     for lecture in result.lectures:
+        lecture_id = cast(int, lecture.id)
         videos = VideoRecommendationService.get_videos_for_lecture(
             db=db,
-            lecture_id=lecture.id,
+            lecture_id=lecture_id,
             user_id=user_id,
         )
 
