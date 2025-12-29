@@ -1,10 +1,4 @@
-from sqlalchemy import (
-    Column,
-    BigInteger,
-    String,
-    Text,
-    DateTime
-)
+from sqlalchemy import Column, BigInteger, String, Text, DateTime
 from sqlalchemy.sql import func
 from app.db.base import Base
 

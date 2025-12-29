@@ -1,5 +1,3 @@
-# app/llm/intent_classifier.py
-
 class IntentClassifier:
     def __init__(self, llm_client):
         self.llm = llm_client

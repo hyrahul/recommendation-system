@@ -36,11 +36,7 @@ class VideoRecommendationService:
                 .one_or_none()
             )
 
-            status = (
-                progress.watch_status
-                if progress
-                else "NotStarted"
-            )
+            status = progress.watch_status if progress else "NotStarted"
 
             results.append(
                 {

@@ -1,9 +1,8 @@
-# app/chat/intents.py
-from typing import Literal
+from enum import Enum
 
-ChatIntent = Literal[
-    "RECOMMENDATION",
-    "KNOWLEDGE",
-    "MIXED",
-    "UNCLEAR"
-]
+
+class ChatIntent(str, Enum):
+    RECOMMENDATION = "RECOMMENDATION"
+    KNOWLEDGE = "KNOWLEDGE"
+    MIXED = "MIXED"
+    UNCLEAR = "UNCLEAR"
